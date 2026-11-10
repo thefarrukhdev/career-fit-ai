@@ -1,29 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #050505;
-  --bg-secondary: #08080a;
-  --bg-tertiary: #0e0e13;
-  --bg-card: #0a0a0e;
-  --bg-elevated: #111117;
-  
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-default: rgba(255, 255, 255, 0.09);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  
-  --accent-emerald: #10b981;
-  --accent-cyan: #06b6d4;
-  --accent-purple: #a855f7;
-  --accent-amber: #f59e0b;
-  --accent-rose: #f43f5e;
+  /* Exact ReactBits.dev Design System Variables */
+  --bg-body: #120f17;
+  --bg-card: #1b1722;
+  --bg-elevated: #1b1722;
+  --bg-hover: #373044;
 
-  --glow-emerald: rgba(16, 185, 129, 0.25);
-  --glow-cyan: rgba(6, 182, 212, 0.25);
-  --glow-purple: rgba(168, 85, 247, 0.25);
+  /* Border colors */
+  --border-primary: #2f293a;
+  --border-secondary: #2f293a;
+  --border-subtle: #2f293a;
+
+  /* Brand colors */
+  --color-primary: #a855f7;
+  --color-accent: #b497cf;
+  --color-accent-muted: #b497cf;
+
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #f5f5f5;
+  --text-muted: #aaaaaa;
+  --text-dimmed: #a1a1aa;
+  --text-link: #ffffff;
+  --section-heading: #f4f4f5;
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* Shared React Bits gradient */
+  --gradient-title: linear-gradient(135deg, #ffffff 0%, #c084fc 25%, #a855f7 50%, #9333ea 75%, #ffffff 100%);
+  --gradient-card: linear-gradient(180deg, rgba(27, 23, 34, 0.8) 0%, rgba(18, 15, 23, 0.95) 100%);
 }
 
 * {
@@ -31,52 +43,51 @@
 }
 
 html {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-body);
   color: var(--text-primary);
-  font-family: var(--font-geist-sans), 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: #120f17;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(168, 85, 247, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(147, 51, 234, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 0% 80%, rgba(192, 132, 252, 0.05) 0%, transparent 40%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* React Bits Custom Keyframes */
-@keyframes shimmer-sweep {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+/* Custom React Bits Selection */
+::selection {
+  background-color: rgba(168, 85, 247, 0.4);
+  color: #ffffff;
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.75;
-    transform: scale(1.04);
-  }
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar-track {
+  background: #120f17;
 }
 
-@keyframes gradient-flow {
+::-webkit-scrollbar-thumb {
+  background: #2f293a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
+
+/* React Bits Animated Gradient Keyframes */
+@keyframes gradientShift {
   0%, 100% {
     background-position: 0% 50%;
   }
@@ -85,80 +96,24 @@ body {
   }
 }
 
-/* Glassmorphism Utilities */
-.glass-panel {
-  background: rgba(10, 10, 14, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+.animate-gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #d8b4fe 20%, #a855f7 40%, #7e22ce 60%, #c084fc 80%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite;
 }
 
-.glass-card {
-  background: rgba(13, 13, 18, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+/* Glassmorphism helpers */
+.reactbits-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.glass-card:hover {
-  border-color: var(--border-default);
-}
-
-.glass-pill {
-  background: rgba(15, 15, 20, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
-}
-
-/* Neon Glow utilities */
-.glow-emerald-aura {
-  box-shadow: 0 0 45px -8px rgba(16, 185, 129, 0.35);
-}
-
-.glow-cyan-aura {
-  box-shadow: 0 0 45px -8px rgba(6, 182, 212, 0.35);
-}
-
-.glow-purple-aura {
-  box-shadow: 0 0 45px -8px rgba(168, 85, 247, 0.35);
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* Focus ring */
-*:focus-visible {
-  outline: 2px solid var(--accent-emerald);
-  outline-offset: 2px;
-}
-
-/* Selection */
-::selection {
-  background-color: rgba(16, 185, 129, 0.25);
-  color: #ffffff;
-}
-
-/* Placeholder styling */
-textarea::placeholder,
-input::placeholder {
-  color: var(--text-muted);
+.reactbits-card:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 14px 40px rgba(168, 85, 247, 0.1);
 }

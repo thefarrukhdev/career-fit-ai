@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, AlertOctagon, Sparkles } from "lucide-react";
-import { SpotlightCard } from "./reactbits/SpotlightCard";
+import { CheckCircle2, AlertOctagon } from "lucide-react";
 
 interface SkillsSectionProps {
   matchedSkills: string[];
@@ -12,98 +11,91 @@ interface SkillsSectionProps {
 export function SkillsSection({ matchedSkills, missingKeywords }: SkillsSectionProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
-      {/* Matched Skills Column (Emerald Spotlight Card) */}
-      <SpotlightCard
-        spotlightColor="rgba(16, 185, 129, 0.22)"
-        intensity={0.28}
-        className="w-full flex flex-col justify-between shadow-xl"
+      {/* Matched Skills Column (React Bits Purple/Emerald) */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 md:p-6 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] flex flex-col hover:border-[#a855f7]/40 transition-colors"
       >
-        <div>
-          <div className="flex items-center justify-between mb-5 border-b border-white/[0.07] pb-3.5">
-            <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                <CheckCircle2 className="w-4 h-4 shadow-[0_0_8px_rgba(52,211,153,0.4)]" />
-              </div>
-              <h3 className="text-base font-semibold text-white tracking-wide">
-                Matched Skills & Qualifications
-              </h3>
+        <div className="flex items-center justify-between mb-4 border-b border-[#2f293a] pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              <CheckCircle2 className="w-4 h-4" />
             </div>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.15)] font-mono">
-              {matchedSkills.length} Found
-            </span>
+            <h3 className="text-base font-bold text-white tracking-wide">
+              Matched Skills & Tech Stack
+            </h3>
           </div>
-
-          {matchedSkills.length > 0 ? (
-            <div className="flex flex-wrap gap-2.5">
-              {matchedSkills.map((skill, index) => (
-                <motion.span
-                  key={`matched-${skill}-${index}`}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.25, delay: index * 0.02 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 shadow-sm hover:border-emerald-400 hover:text-white hover:shadow-[0_0_15px_rgba(16,185,129,0.35)] transition-all cursor-default select-none backdrop-blur-md"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)] animate-pulse" />
-                  <span>{skill}</span>
-                </motion.span>
-              ))}
-            </div>
-          ) : (
-            <div className="py-10 text-center text-xs text-zinc-500 italic">
-              No direct matching keywords were detected. Try updating your resume with target terminology.
-            </div>
-          )}
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            {matchedSkills.length} Found
+          </span>
         </div>
-      </SpotlightCard>
 
-      {/* Missing Keywords Column (Rose / Amber Spotlight Card) */}
-      <SpotlightCard
-        spotlightColor="rgba(244, 63, 94, 0.22)"
-        intensity={0.28}
-        className="w-full flex flex-col justify-between shadow-xl"
+        {matchedSkills.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {matchedSkills.map((skill, index) => (
+              <motion.span
+                key={`matched-${skill}-${index}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25, delay: index * 0.03 }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-[#120f17] border border-emerald-500/30 text-emerald-300 shadow-sm hover:border-emerald-400 hover:shadow-[0_0_12px_rgba(16,185,129,0.2)] transition-all"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {skill}
+              </motion.span>
+            ))}
+          </div>
+        ) : (
+          <div className="py-8 text-center text-xs text-[#b497cf] italic">
+            No exact matching keywords were detected. Try updating your resume with relevant terms.
+          </div>
+        )}
+      </motion.div>
+
+      {/* Missing Keywords Column (Rose / Amber Alert) */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 md:p-6 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] flex flex-col hover:border-rose-500/40 transition-colors"
       >
-        <div>
-          <div className="flex items-center justify-between mb-5 border-b border-white/[0.07] pb-3.5">
-            <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400">
-                <AlertOctagon className="w-4 h-4 shadow-[0_0_8px_rgba(251,113,133,0.4)]" />
-              </div>
-              <h3 className="text-base font-semibold text-white tracking-wide">
-                Missing Critical Keywords
-              </h3>
+        <div className="flex items-center justify-between mb-4 border-b border-[#2f293a] pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/30">
+              <AlertOctagon className="w-4 h-4" />
             </div>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.15)] font-mono">
-              {missingKeywords.length} Missing
-            </span>
+            <h3 className="text-base font-bold text-white tracking-wide">
+              Missing Critical Keywords
+            </h3>
           </div>
-
-          {missingKeywords.length > 0 ? (
-            <div className="flex flex-wrap gap-2.5">
-              {missingKeywords.map((keyword, index) => (
-                <motion.span
-                  key={`missing-${keyword}-${index}`}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.25, delay: index * 0.02 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-950/35 border border-rose-500/30 text-rose-200 shadow-sm hover:border-rose-400 hover:text-white hover:shadow-[0_0_15px_rgba(244,63,94,0.35)] transition-all cursor-default select-none backdrop-blur-md"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.9)] animate-pulse" />
-                  <span>{keyword}</span>
-                </motion.span>
-              ))}
-            </div>
-          ) : (
-            <div className="py-10 text-center text-xs text-emerald-400/90 italic font-medium flex items-center justify-center gap-1.5">
-              <Sparkles className="w-4 h-4" />
-              <span>Outstanding! Your resume covers all critical requirements found in the job description.</span>
-            </div>
-          )}
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/30">
+            {missingKeywords.length} Missing
+          </span>
         </div>
-      </SpotlightCard>
+
+        {missingKeywords.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {missingKeywords.map((keyword, index) => (
+              <motion.span
+                key={`missing-${keyword}-${index}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25, delay: index * 0.03 }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-[#120f17] border border-rose-500/30 text-rose-300 shadow-sm hover:border-rose-400 hover:shadow-[0_0_12px_rgba(244,63,94,0.2)] transition-all"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                {keyword}
+              </motion.span>
+            ))}
+          </div>
+        ) : (
+          <div className="py-8 text-center text-xs text-emerald-400/90 italic font-medium">
+            Outstanding! Your resume covers all critical requirements found in the job description.
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 }
-
-export default SkillsSection;

@@ -1,95 +1,64 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, ShieldCheck, Zap, Cpu, Flame } from "lucide-react";
-import { ShinyBadge } from "@/components/reactbits/ShinyBadge";
+import { Sparkles, ShieldCheck, Zap, ArrowRight, Code2 } from "lucide-react";
 
 export function Header() {
-  const techChips = [
-    {
-      icon: ShieldCheck,
-      label: "Real-time ATS Score",
-      color: "text-emerald-400",
-      borderHover: "hover:border-emerald-500/40",
-      glowHover: "hover:shadow-[0_0_15px_rgba(16,185,129,0.2)]",
-    },
-    {
-      icon: Sparkles,
-      label: "Skill Gap Diagnostics",
-      color: "text-cyan-400",
-      borderHover: "hover:border-cyan-500/40",
-      glowHover: "hover:shadow-[0_0_15px_rgba(6,182,212,0.2)]",
-    },
-    {
-      icon: Cpu,
-      label: "Deterministic JSON Schema",
-      color: "text-amber-400",
-      borderHover: "hover:border-amber-500/40",
-      glowHover: "hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]",
-    },
-    {
-      icon: Flame,
-      label: "Instant Match Analysis",
-      color: "text-rose-400",
-      borderHover: "hover:border-rose-500/40",
-      glowHover: "hover:shadow-[0_0_15px_rgba(244,63,94,0.2)]",
-    },
-  ];
-
   return (
     <motion.header
-      initial={{ opacity: 0, y: -24 }}
+      initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="text-center py-10 md:py-16 px-4 flex flex-col items-center relative z-20"
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="text-center pt-6 pb-12 px-4 flex flex-col items-center relative"
     >
-      {/* Top React Bits Shiny Pill Badge */}
-      <ShinyBadge className="mb-6 cursor-default" dotColor="emerald">
-        <span className="font-semibold text-emerald-400">React Bits Enhanced</span>
-        <span className="text-zinc-600">•</span>
-        <span className="text-zinc-300">
-          Proof of Work for <strong className="font-bold text-white">SWARA</strong>
+      {/* Top React Bits Pill Badge */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
+        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium mb-6 border border-[#a855f7]/30 bg-[#1b1722]/90 backdrop-blur-md text-[#d8b4fe] shadow-[0_0_20px_rgba(168,85,247,0.15)] group cursor-pointer hover:border-[#a855f7]/60 transition-all"
+      >
+        <span className="flex h-2 w-2 rounded-full bg-[#a855f7] animate-pulse" />
+        <span className="font-semibold text-white">SWARA Proof of Work</span>
+        <span className="text-[#2f293a]">•</span>
+        <span className="text-[#b497cf] flex items-center gap-1 group-hover:text-white transition-colors">
+          React Bits Edition v2.0
+          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
         </span>
-        <span className="text-zinc-600">•</span>
-        <span className="flex items-center gap-1 font-semibold text-emerald-400">
-          <Zap className="w-3.5 h-3.5 fill-emerald-400/40" /> Gemini 3.8 AI
-        </span>
-      </ShinyBadge>
+      </motion.div>
 
-      {/* Main High-Contrast Hero Title */}
-      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white mb-5 leading-[1.08] max-w-4xl">
-        AI-Powered{" "}
-        <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(16,185,129,0.35)]">
-          ATS Resume Scanner
+      {/* Main Title in React Bits Gradient */}
+      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-5 max-w-4xl leading-[1.1]">
+        Make your resume pop with{" "}
+        <span className="animate-gradient-text block sm:inline">
+          interactive ATS matching
         </span>
       </h1>
 
-      {/* Subtitle */}
-      <p className="max-w-2xl text-base sm:text-lg text-zinc-400 leading-relaxed font-normal mb-8">
-        Match your resume against any job description with real-time deep ATS scoring, keyword gap diagnostics, and actionable AI optimizations.
+      {/* Subtitle in React Bits muted purple */}
+      <p className="max-w-2xl text-base sm:text-lg text-[#b497cf] leading-relaxed font-normal mb-8">
+        An animated, production-ready ATS diagnostic platform designed for <strong className="text-white">SWARA ($80k-$90k + 10% equity)</strong>. Built with React 19, Next.js 16, and Gemini 3.8.
       </p>
 
-      {/* React Bits Interactive Technology Chips */}
-      <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 text-xs sm:text-sm">
-        {techChips.map((chip, index) => {
-          const Icon = chip.icon;
-          return (
-            <motion.div
-              key={chip.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 + index * 0.06, duration: 0.4 }}
-              whileHover={{ y: -2, scale: 1.02 }}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-zinc-950/70 backdrop-blur-xl text-zinc-300 shadow-sm transition-all duration-200 cursor-default ${chip.borderHover} ${chip.glowHover}`}
-            >
-              <Icon className={`w-3.5 h-3.5 ${chip.color}`} />
-              <span className="font-medium">{chip.label}</span>
-            </motion.div>
-          );
-        })}
+      {/* Feature Pills */}
+      <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-zinc-300">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1b1722] border border-[#2f293a]">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Real-time ATS Score</span>
+        </div>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1b1722] border border-[#2f293a]">
+          <Sparkles className="w-3.5 h-3.5 text-[#a855f7]" />
+          <span>Keyword Gap Analysis</span>
+        </div>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1b1722] border border-[#2f293a]">
+          <Zap className="w-3.5 h-3.5 text-amber-400" />
+          <span>Gemini 3.8 Flash Engine</span>
+        </div>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1b1722] border border-[#2f293a]">
+          <Code2 className="w-3.5 h-3.5 text-cyan-400" />
+          <span>Deterministic Zod Schema</span>
+        </div>
       </div>
     </motion.header>
   );
 }
-
-export default Header;

@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 
 interface CircularProgressProps {
@@ -7,22 +9,23 @@ interface CircularProgressProps {
 }
 
 function getColor(value: number): string {
-  if (value >= 70) return "#22c55e";
-  if (value >= 40) return "#f59e0b";
-  return "#ef4444";
+  if (value >= 75) return "#a855f7"; // React Bits signature purple
+  if (value >= 50) return "#38bdf8"; // React Bits cyan
+  if (value >= 30) return "#f59e0b"; // Amber
+  return "#f43f5e"; // Rose
 }
 
 function getLabel(value: number): string {
-  if (value >= 80) return "Excellent";
-  if (value >= 60) return "Good";
-  if (value >= 40) return "Fair";
-  return "Poor";
+  if (value >= 80) return "Exceptional Match";
+  if (value >= 65) return "Strong Match";
+  if (value >= 45) return "Moderate Fit";
+  return "Needs Optimization";
 }
 
 export function CircularProgress({
   value,
-  size = 160,
-  strokeWidth = 10,
+  size = 170,
+  strokeWidth = 12,
 }: CircularProgressProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -51,7 +54,7 @@ export function CircularProgress({
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="#222222"
+            stroke="#2f293a"
             strokeWidth={strokeWidth}
           />
           {/* Animated progress ring */}
@@ -71,37 +74,37 @@ export function CircularProgress({
             transition={{
               duration: 1.5,
               ease: "easeOut",
-              delay: 0.3,
+              delay: 0.2,
             }}
             style={{
-              filter: `drop-shadow(0 0 8px ${color})`,
+              filter: `drop-shadow(0 0 12px ${color}88)`,
             }}
           />
         </svg>
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span
-            className="text-4xl font-bold"
+            className="text-4xl font-extrabold tracking-tight"
             style={{ color }}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
             {value}
           </motion.span>
-          <span className="text-sm font-medium" style={{ color: "#71717a" }}>
-            %
+          <span className="text-xs font-semibold text-[#b497cf] uppercase tracking-wider">
+            Score %
           </span>
         </div>
       </div>
       <motion.span
-        className="text-sm font-semibold tracking-wider uppercase"
+        className="text-xs font-bold tracking-wider uppercase px-2.5 py-1 rounded-full border border-[#2f293a] bg-[#120f17]"
         style={{ color }}
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
+        transition={{ delay: 0.6 }}
       >
-        {label} Match
+        {label}
       </motion.span>
     </div>
   );

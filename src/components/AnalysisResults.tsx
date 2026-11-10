@@ -5,7 +5,7 @@ import type { AnalysisResult } from "@/types/analysis";
 import { ScoreCard } from "./ScoreCard";
 import { SkillsSection } from "./SkillsSection";
 import { RecommendationsSection } from "./RecommendationsSection";
-import { Copy, Check, RotateCcw, FileCheck2 } from "lucide-react";
+import { Copy, Check, RotateCcw, Sparkles } from "lucide-react";
 
 interface AnalysisResultsProps {
   result: AnalysisResult;
@@ -45,60 +45,36 @@ ${result.recommendations.map((r, i) => `${i + 1}. ${r}`).join("\n")}
 
   return (
     <div className="w-full space-y-8">
-      {/* React Bits Toolbar Action Bar */}
-      <div className="relative flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#0a0a0f]/85 border border-white/[0.08] backdrop-blur-xl shadow-2xl overflow-hidden">
-        {/* Subtle top shimmer accent */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
-
+      {/* React Bits Action Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#1b1722]/95 p-4 sm:p-5 rounded-2xl border border-[#2f293a] backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-            <FileCheck2 className="w-5 h-5" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-[#a855f7] to-[#7c3aed] text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+            <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-sm sm:text-base font-semibold text-white tracking-wide">
-                ATS Diagnostic Report Ready
-              </h2>
-              <span className="flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-            </div>
-            <p className="text-xs text-zinc-400">
-              Evaluated with deterministic schema heuristics & Gemini AI
-            </p>
+            <h2 className="text-sm font-bold text-white tracking-wide">ATS Diagnostic Report Ready</h2>
+            <p className="text-xs text-[#b497cf]">Evaluated via Gemini 3.8 Flash & Deterministic Zod Schema</p>
           </div>
         </div>
 
-        {/* Toolbar Action Buttons */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleCopySummary}
-            className={`relative inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all overflow-hidden cursor-pointer select-none border ${
-              copied
-                ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)]"
-                : "bg-white/[0.05] hover:bg-white/[0.1] border-white/[0.1] text-zinc-200 hover:text-white hover:border-white/20 shadow-md"
-            }`}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#120f17] border border-[#2f293a] hover:border-[#a855f7]/60 text-zinc-200 hover:text-white transition-all shadow-sm"
           >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-400 drop-shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-                <span>Copied Report!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Copy Report</span>
-              </>
-            )}
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-[#a855f7]" />}
+            {copied ? "Copied Report!" : "Copy Report"}
           </button>
 
           {onReset && (
             <button
               type="button"
               onClick={onReset}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-white/[0.15] text-zinc-400 hover:text-zinc-200 transition-all cursor-pointer select-none"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#120f17] border border-[#2f293a] hover:border-[#2f293a] text-[#b497cf] hover:text-white transition-all"
             >
-              <RotateCcw className="w-3.5 h-3.5 transition-transform group-hover:-rotate-90" />
-              <span>New Scan</span>
+              <RotateCcw className="w-3.5 h-3.5" />
+              New Scan
             </button>
           )}
         </div>
@@ -118,5 +94,3 @@ ${result.recommendations.map((r, i) => `${i + 1}. ${r}`).join("\n")}
     </div>
   );
 }
-
-export default AnalysisResults;
