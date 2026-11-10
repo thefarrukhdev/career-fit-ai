@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 interface SkillsSectionProps {
   matchedSkills: string[];
   missingKeywords: string[];
@@ -9,16 +7,12 @@ interface SkillsSectionProps {
 
 export function SkillsSection({ matchedSkills, missingKeywords }: SkillsSectionProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-      {/* Matched Skills */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 backdrop-blur-xl"
-      >
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-semibold text-white">Matched Skills</span>
-          <span className="text-[11px] text-emerald-400 font-mono">{matchedSkills.length}</span>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+      {/* Matched */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+        <div className="flex items-center justify-between mb-2.5">
+          <span className="text-xs font-medium text-zinc-300">Matched Skills</span>
+          <span className="text-[10px] text-emerald-400 font-mono font-medium">{matchedSkills.length}</span>
         </div>
 
         {matchedSkills.length > 0 ? (
@@ -26,26 +20,22 @@ export function SkillsSection({ matchedSkills, missingKeywords }: SkillsSectionP
             {matchedSkills.map((skill, index) => (
               <span
                 key={`matched-${skill}-${index}`}
-                className="px-2.5 py-1 rounded-md text-xs bg-[#120f17] border border-emerald-500/30 text-emerald-300"
+                className="px-2 py-0.5 rounded text-[11px] bg-zinc-900 border border-emerald-500/30 text-emerald-300"
               >
                 {skill}
               </span>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-[#b497cf] italic">No matching keywords found.</p>
+          <p className="text-[11px] text-zinc-500">None detected.</p>
         )}
-      </motion.div>
+      </div>
 
-      {/* Missing Keywords */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 backdrop-blur-xl"
-      >
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-semibold text-white">Missing Keywords</span>
-          <span className="text-[11px] text-rose-400 font-mono">{missingKeywords.length}</span>
+      {/* Missing */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+        <div className="flex items-center justify-between mb-2.5">
+          <span className="text-xs font-medium text-zinc-300">Missing Keywords</span>
+          <span className="text-[10px] text-rose-400 font-mono font-medium">{missingKeywords.length}</span>
         </div>
 
         {missingKeywords.length > 0 ? (
@@ -53,16 +43,16 @@ export function SkillsSection({ matchedSkills, missingKeywords }: SkillsSectionP
             {missingKeywords.map((keyword, index) => (
               <span
                 key={`missing-${keyword}-${index}`}
-                className="px-2.5 py-1 rounded-md text-xs bg-[#120f17] border border-rose-500/30 text-rose-300"
+                className="px-2 py-0.5 rounded text-[11px] bg-zinc-900 border border-rose-500/30 text-rose-300"
               >
                 {keyword}
               </span>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-emerald-400 italic">All key requirements found.</p>
+          <p className="text-[11px] text-emerald-400">All matched.</p>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ interface JobDescriptionInputProps {
 export const SAMPLE_JOBS: SampleJob[] = [
   {
     id: "swara-dev",
-    title: "SWARA Developer",
+    title: "SWARA",
     company: "SWARA ($80k-$90k + 10%)",
     description: `Company: SWARA (San Francisco, CA - Hybrid/Remote)
 Role: Software Developer ($80k - $90k base + 10% equity)
@@ -36,7 +36,7 @@ Bonus Qualifications:
   },
   {
     id: "nextjs-fullstack",
-    title: "Full Stack Engineer",
+    title: "Full Stack",
     company: "Next.js & Node",
     description: `Role: Full Stack Next.js Engineer (Remote)
 
@@ -55,7 +55,7 @@ Requirements:
   },
   {
     id: "senior-frontend",
-    title: "Frontend Architect",
+    title: "Frontend",
     company: "React & Systems",
     description: `Role: Senior Frontend Architect / Lead Engineer
 
@@ -96,26 +96,27 @@ export function JobDescriptionInput({
   isLoading = false,
 }: JobDescriptionInputProps) {
   return (
-    <div className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 backdrop-blur-xl transition-all">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-semibold text-white">Job Description</h2>
-        <span className="text-[11px] text-[#b497cf] font-mono">
-          {value.length} / 5000
-        </span>
+    <div className="w-full h-full flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900/30 p-5 transition-all">
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-medium text-zinc-300">Job Description</span>
+          <span className="text-[10px] text-zinc-500 font-mono">
+            {value.length} / 5000
+          </span>
+        </div>
+
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value.slice(0, 5000))}
+          disabled={isLoading}
+          placeholder="Paste job description here..."
+          className="w-full h-48 rounded-lg border border-zinc-800 bg-zinc-950/50 p-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-700 font-sans resize-none leading-relaxed"
+        />
       </div>
 
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value.slice(0, 5000))}
-        disabled={isLoading}
-        rows={6}
-        placeholder="Paste job description here..."
-        className="w-full rounded-xl border border-[#2f293a] bg-[#120f17] p-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-[#a855f7] transition-all font-sans leading-relaxed mb-3.5"
-      />
-
-      {/* Sample jobs */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[11px] text-[#b497cf]">Samples:</span>
+      {/* Samples */}
+      <div className="flex items-center gap-1.5 pt-3">
+        <span className="text-[11px] text-zinc-500 mr-1">Samples:</span>
         {SAMPLE_JOBS.map((job) => {
           const isSwara = job.id === "swara-dev";
           return (
@@ -124,10 +125,10 @@ export function JobDescriptionInput({
               type="button"
               onClick={() => onSampleJobSelect(job.description)}
               disabled={isLoading}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
+              className={`px-2 py-0.5 rounded text-[11px] border transition-all ${
                 isSwara
-                  ? "bg-[#a855f7]/15 border-[#a855f7]/40 text-[#d8b4fe] hover:bg-[#a855f7]/25"
-                  : "bg-[#120f17] border-[#2f293a] text-zinc-300 hover:text-white hover:border-[#a855f7]/30"
+                  ? "bg-zinc-800 border-zinc-700 text-white font-medium hover:bg-zinc-700"
+                  : "bg-zinc-900/50 border-zinc-800/80 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
               }`}
             >
               {job.title}

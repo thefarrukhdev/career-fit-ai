@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/reactbits/Navbar";
 import { Header } from "@/components/Header";
 import { ResumeUploader } from "@/components/ResumeUploader";
@@ -35,7 +34,7 @@ export default function Home() {
     setErrorMessage(null);
 
     if (!resumeText.trim() && !resumeFile) {
-      setErrorMessage("Please upload a resume or paste your text.");
+      setErrorMessage("Please upload a resume or paste text.");
       return;
     }
 
@@ -75,7 +74,7 @@ export default function Home() {
 
       setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 150);
+      }, 100);
     } catch (err) {
       console.error(err);
       setErrorMessage(err instanceof Error ? err.message : "Error analyzing match.");
@@ -93,17 +92,14 @@ export default function Home() {
   const isBusy = status === "parsing" || status === "analyzing";
 
   return (
-    <div className="min-h-screen bg-[#120f17] text-white flex flex-col justify-between selection:bg-[#a855f7]/40 selection:text-white relative">
-      {/* Subtle top glow */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-gradient-to-b from-[#a855f7]/10 to-transparent pointer-events-none blur-3xl" />
-
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col justify-between selection:bg-zinc-800">
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-12 w-full relative z-10 flex-1">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-16 w-full flex-1">
         <Header />
 
-        <div className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
             <ResumeUploader onResumeChange={handleResumeChange} isLoading={isBusy} />
             <JobDescriptionInput
               value={jobDescription}
@@ -114,39 +110,32 @@ export default function Home() {
           </div>
 
           {/* Error */}
-          <AnimatePresence>
-            {errorMessage && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex items-center gap-2 p-3 rounded-xl border border-rose-500/30 bg-rose-950/30 text-rose-300 text-xs font-medium"
-              >
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-                <span>{errorMessage}</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {errorMessage && (
+            <div className="flex items-center gap-2 p-3 rounded-lg border border-rose-900/40 bg-rose-950/20 text-rose-300 text-xs">
+              <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
 
-          {/* Minimalist Action Button */}
+          {/* Simple Clean Button */}
           <div className="flex justify-center pt-2">
             <button
               type="button"
               onClick={handleAnalyze}
               disabled={isBusy}
-              className={`px-8 py-3 rounded-xl text-xs font-semibold tracking-wide transition-all ${
+              className={`px-6 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all ${
                 isBusy
-                  ? "bg-[#1b1722] text-zinc-500 border border-[#2f293a] cursor-not-allowed"
-                  : "bg-[#a855f7] hover:bg-[#9333ea] text-white shadow-lg shadow-[#a855f7]/25 cursor-pointer"
+                  ? "bg-zinc-800 text-zinc-500 cursor-not-allowed"
+                  : "bg-white hover:bg-zinc-200 text-black cursor-pointer shadow-sm"
               }`}
             >
               {isBusy ? (
                 <span className="flex items-center gap-2">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-black" />
                   Analyzing...
                 </span>
               ) : (
-                "Scan Resume"
+                "Scan Match"
               )}
             </button>
           </div>
@@ -154,26 +143,19 @@ export default function Home() {
 
         {/* Results */}
         <div ref={resultsRef} className="pt-8">
-          <AnimatePresence>
-            {result && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <AnalysisResults result={result} onReset={handleReset} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {result && (
+            <div className="pt-4">
+              <AnalysisResults result={result} onReset={handleReset} />
+            </div>
+          )}
         </div>
       </main>
 
       {/* Minimal Footer */}
-      <footer className="border-t border-[#2f293a] py-6 px-4 text-center text-xs text-[#b497cf]">
+      <footer className="border-t border-zinc-900 py-5 px-6 text-xs text-zinc-500">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <span>CareerFit • SWARA Edition</span>
-          <span>Next.js 16 + Gemini</span>
+          <span>Next.js + Gemini</span>
         </div>
       </footer>
     </div>

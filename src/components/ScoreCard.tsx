@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { CircularProgress } from "@/components/ui/CircularProgress";
 import type { AnalysisResult } from "@/types/analysis";
 
@@ -13,31 +12,27 @@ export function ScoreCard({ result }: ScoreCardProps) {
   const isSeniorityGood = seniorityFit.isMatch;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-6 backdrop-blur-xl"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-        {/* Left: Score Gauge */}
-        <div className="md:col-span-4 flex flex-col items-center justify-center p-2">
-          <CircularProgress value={matchScore} size={150} strokeWidth={10} />
+    <div className="w-full rounded-xl border border-zinc-800 bg-zinc-900/30 p-5">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+        {/* Left: Score */}
+        <div className="md:col-span-4 flex flex-col items-center justify-center">
+          <CircularProgress value={matchScore} size={130} strokeWidth={8} />
+          <span className="text-[11px] text-zinc-400 mt-1">Match Score</span>
         </div>
 
-        {/* Right: Summary & Metrics */}
-        <div className="md:col-span-8 flex flex-col gap-4">
-          <p className="text-sm text-zinc-200 leading-relaxed bg-[#120f17] p-3.5 rounded-xl border border-[#2f293a]">
+        {/* Right: Summary */}
+        <div className="md:col-span-8 flex flex-col gap-3">
+          <p className="text-xs text-zinc-300 leading-relaxed bg-zinc-950/40 p-3 rounded-lg border border-zinc-800/80">
             {summary}
           </p>
 
-          <div className="grid grid-cols-2 gap-3 text-xs">
-            <div className="rounded-xl border border-[#2f293a] bg-[#120f17] p-3">
-              <span className="text-[#b497cf] block text-[11px] mb-1">Seniority</span>
+          <div className="grid grid-cols-2 gap-2.5 text-xs">
+            <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/40 p-2.5">
+              <span className="text-zinc-500 block text-[10px] mb-0.5">Seniority</span>
               <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-white">{seniorityFit.level}</span>
+                <span className="font-medium text-white">{seniorityFit.level}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.5 rounded ${
+                  className={`text-[10px] px-1.5 py-0.2 rounded ${
                     isSeniorityGood
                       ? "bg-emerald-500/10 text-emerald-400"
                       : "bg-amber-500/10 text-amber-400"
@@ -48,15 +43,15 @@ export function ScoreCard({ result }: ScoreCardProps) {
               </div>
             </div>
 
-            <div className="rounded-xl border border-[#2f293a] bg-[#120f17] p-3">
-              <span className="text-[#b497cf] block text-[11px] mb-1">Experience</span>
-              <span className="font-semibold text-white">
-                {experienceYears.detected} / {experienceYears.required} req
+            <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/40 p-2.5">
+              <span className="text-zinc-500 block text-[10px] mb-0.5">Experience</span>
+              <span className="font-medium text-white">
+                {experienceYears.detected} / {experienceYears.required}
               </span>
             </div>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

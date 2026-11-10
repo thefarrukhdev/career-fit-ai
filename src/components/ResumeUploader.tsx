@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { UploadCloud, CheckCircle2, X, AlertCircle } from "lucide-react";
+import { Upload, Check, X, AlertCircle } from "lucide-react";
 
 interface ResumeUploaderProps {
   onResumeChange: (text: string, file?: File) => void;
@@ -82,48 +81,42 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
   };
 
   return (
-    <div className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 backdrop-blur-xl transition-all">
-      {/* Header & Tabs */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-semibold text-white">Resume</h2>
+    <div className="w-full h-full flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900/30 p-5 transition-all">
+      {/* Header */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-medium text-zinc-300">Resume</span>
 
-        {/* Tab switch */}
-        <div className="flex rounded-lg bg-[#120f17] p-1 border border-[#2f293a] text-xs">
-          <button
-            type="button"
-            onClick={() => setActiveTab("file")}
-            className={`px-3 py-1 rounded-md transition-all ${
-              activeTab === "file"
-                ? "bg-[#2f293a] text-white font-medium"
-                : "text-[#b497cf] hover:text-white"
-            }`}
-          >
-            File
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("paste")}
-            className={`px-3 py-1 rounded-md transition-all ${
-              activeTab === "paste"
-                ? "bg-[#2f293a] text-white font-medium"
-                : "text-[#b497cf] hover:text-white"
-            }`}
-          >
-            Paste
-          </button>
+          {/* Toggle */}
+          <div className="flex rounded-md bg-zinc-900 p-0.5 border border-zinc-800 text-xs">
+            <button
+              type="button"
+              onClick={() => setActiveTab("file")}
+              className={`px-2.5 py-1 rounded text-[11px] transition-all ${
+                activeTab === "file"
+                  ? "bg-zinc-800 text-white font-medium"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              Upload
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("paste")}
+              className={`px-2.5 py-1 rounded text-[11px] transition-all ${
+                activeTab === "paste"
+                  ? "bg-zinc-800 text-white font-medium"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              Paste
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Tab content */}
-      <AnimatePresence mode="wait">
+        {/* Content */}
         {activeTab === "file" ? (
-          <motion.div
-            key="file-tab"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
+          <div>
             <input
               ref={fileInputRef}
               type="file"
@@ -139,58 +132,48 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={() => !isLoading && fileInputRef.current?.click()}
-                className={`flex flex-col items-center justify-center p-8 rounded-xl border border-dashed transition-all cursor-pointer ${
+                className={`flex flex-col items-center justify-center h-48 rounded-lg border border-dashed transition-all cursor-pointer ${
                   isDragging
-                    ? "border-[#a855f7] bg-[#a855f7]/10"
-                    : "border-[#2f293a] hover:border-[#a855f7]/50 bg-[#120f17]/50"
+                    ? "border-zinc-400 bg-zinc-800/50"
+                    : "border-zinc-800 hover:border-zinc-700 bg-zinc-950/40"
                 }`}
               >
-                <UploadCloud className="w-6 h-6 text-[#a855f7] mb-2" />
-                <p className="text-xs font-medium text-white mb-0.5">
-                  Drop your resume here or <span className="text-[#a855f7]">browse</span>
+                <Upload className="w-5 h-5 text-zinc-400 mb-2" />
+                <p className="text-xs text-zinc-300 mb-0.5">
+                  Drop PDF or <span className="text-white underline">browse</span>
                 </p>
-                <p className="text-[11px] text-[#b497cf]">PDF or TXT up to 10MB</p>
+                <p className="text-[10px] text-zinc-500">PDF or TXT up to 10MB</p>
               </div>
             ) : (
-              <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#2f293a] bg-[#120f17]">
-                <div className="flex items-center gap-2.5 truncate">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span className="text-xs font-medium text-white truncate">{selectedFile.name}</span>
+              <div className="flex items-center justify-between p-3 h-48 rounded-lg border border-zinc-800 bg-zinc-950/50">
+                <div className="flex items-center gap-2 truncate">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-xs text-zinc-200 truncate">{selectedFile.name}</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleRemoveFile}
                   disabled={isLoading}
-                  className="p-1 text-zinc-400 hover:text-white rounded transition-colors"
+                  className="p-1 text-zinc-400 hover:text-white"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
             )}
-          </motion.div>
+          </div>
         ) : (
-          <motion.div
-            key="paste-tab"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            <textarea
-              value={pastedText}
-              onChange={handlePastedTextChange}
-              disabled={isLoading}
-              placeholder="Paste your resume text here..."
-              rows={6}
-              className="w-full rounded-xl border border-[#2f293a] bg-[#120f17] p-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-[#a855f7] transition-all font-mono leading-relaxed"
-            />
-          </motion.div>
+          <textarea
+            value={pastedText}
+            onChange={handlePastedTextChange}
+            disabled={isLoading}
+            placeholder="Paste your resume text here..."
+            className="w-full h-48 rounded-lg border border-zinc-800 bg-zinc-950/50 p-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-700 font-mono resize-none"
+          />
         )}
-      </AnimatePresence>
+      </div>
 
-      {/* Error display */}
       {uploadError && (
-        <div className="mt-3 flex items-center gap-2 text-xs text-rose-400 bg-rose-950/30 border border-rose-900/30 p-2 rounded-lg">
+        <div className="mt-3 flex items-center gap-1.5 text-xs text-rose-400 bg-rose-950/20 border border-rose-900/30 p-2 rounded">
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
           <span>{uploadError}</span>
         </div>
