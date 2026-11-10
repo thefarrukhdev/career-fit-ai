@@ -2,7 +2,7 @@
 
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UploadCloud, FileText, CheckCircle2, X, AlertCircle } from "lucide-react";
+import { UploadCloud, CheckCircle2, X, AlertCircle } from "lucide-react";
 
 interface ResumeUploaderProps {
   onResumeChange: (text: string, file?: File) => void;
@@ -24,12 +24,12 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
     const isTxtExt = file.name.toLowerCase().endsWith(".txt");
 
     if (!validTypes.includes(file.type) && !isPdfExt && !isTxtExt) {
-      setUploadError("Please upload a valid PDF or TXT resume file.");
+      setUploadError("Please upload a PDF or TXT file.");
       return;
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      setUploadError("File size exceeds 10MB limit.");
+      setUploadError("File exceeds 10MB limit.");
       return;
     }
 
@@ -82,42 +82,34 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
   };
 
   return (
-    <div className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 md:p-6 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all hover:border-[#a855f7]/40">
+    <div className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 backdrop-blur-xl transition-all">
       {/* Header & Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 border-b border-[#2f293a] pb-4">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#a855f7]/15 text-[#c084fc] border border-[#a855f7]/30">
-            <FileText className="w-4 h-4" />
-          </div>
-          <div>
-            <h2 className="text-base font-bold text-white tracking-wide">Candidate Resume</h2>
-            <p className="text-[11px] text-[#b497cf]">Raw PDF parsed natively via server stream</p>
-          </div>
-        </div>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-white">Resume</h2>
 
         {/* Tab switch */}
-        <div className="flex rounded-lg bg-[#120f17] p-1 border border-[#2f293a] text-xs font-medium">
+        <div className="flex rounded-lg bg-[#120f17] p-1 border border-[#2f293a] text-xs">
           <button
             type="button"
             onClick={() => setActiveTab("file")}
-            className={`px-3 py-1.5 rounded-md transition-all ${
+            className={`px-3 py-1 rounded-md transition-all ${
               activeTab === "file"
-                ? "bg-[#373044] text-white shadow-sm font-semibold"
+                ? "bg-[#2f293a] text-white font-medium"
                 : "text-[#b497cf] hover:text-white"
             }`}
           >
-            Upload PDF / TXT
+            File
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("paste")}
-            className={`px-3 py-1.5 rounded-md transition-all ${
+            className={`px-3 py-1 rounded-md transition-all ${
               activeTab === "paste"
-                ? "bg-[#373044] text-white shadow-sm font-semibold"
+                ? "bg-[#2f293a] text-white font-medium"
                 : "text-[#b497cf] hover:text-white"
             }`}
           >
-            Paste Text
+            Paste
           </button>
         </div>
       </div>
@@ -127,10 +119,10 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
         {activeTab === "file" ? (
           <motion.div
             key="file-tab"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
             <input
               ref={fileInputRef}
@@ -147,43 +139,31 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={() => !isLoading && fileInputRef.current?.click()}
-                className={`relative flex flex-col items-center justify-center p-8 sm:p-10 rounded-xl border border-dashed transition-all cursor-pointer ${
+                className={`flex flex-col items-center justify-center p-8 rounded-xl border border-dashed transition-all cursor-pointer ${
                   isDragging
-                    ? "border-[#a855f7] bg-[#a855f7]/10 shadow-[0_0_30px_rgba(168,85,247,0.2)]"
-                    : "border-[#2f293a] hover:border-[#a855f7]/60 bg-[#120f17]/60 hover:bg-[#120f17]/90"
+                    ? "border-[#a855f7] bg-[#a855f7]/10"
+                    : "border-[#2f293a] hover:border-[#a855f7]/50 bg-[#120f17]/50"
                 }`}
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1b1722] border border-[#2f293a] text-[#c084fc] mb-3.5 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                  <UploadCloud className="w-6 h-6" />
-                </div>
-                <p className="text-sm font-medium text-white mb-1 text-center">
-                  <span className="text-[#c084fc] font-semibold underline underline-offset-2">Click to browse</span> or drag and drop
+                <UploadCloud className="w-6 h-6 text-[#a855f7] mb-2" />
+                <p className="text-xs font-medium text-white mb-0.5">
+                  Drop your resume here or <span className="text-[#a855f7]">browse</span>
                 </p>
-                <p className="text-xs text-[#b497cf] text-center">
-                  Supports PDF or TXT (Max 10MB) — zero disk storage
-                </p>
+                <p className="text-[11px] text-[#b497cf]">PDF or TXT up to 10MB</p>
               </div>
             ) : (
-              <div className="flex items-center justify-between p-4 rounded-xl border border-[#2f293a] bg-[#120f17]/80">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#a855f7]/15 text-[#c084fc] border border-[#a855f7]/30">
-                    <CheckCircle2 className="w-5 h-5" />
-                  </div>
-                  <div className="truncate">
-                    <p className="text-sm font-semibold text-white truncate">{selectedFile.name}</p>
-                    <p className="text-xs text-[#b497cf]">
-                      {(selectedFile.size / 1024).toFixed(1)} KB • Ready for ATS analysis
-                    </p>
-                  </div>
+              <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#2f293a] bg-[#120f17]">
+                <div className="flex items-center gap-2.5 truncate">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-xs font-medium text-white truncate">{selectedFile.name}</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleRemoveFile}
                   disabled={isLoading}
-                  className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-[#373044] transition-colors"
-                  aria-label="Remove uploaded file"
+                  className="p-1 text-zinc-400 hover:text-white rounded transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
             )}
@@ -191,38 +171,29 @@ export function ResumeUploader({ onResumeChange, isLoading = false }: ResumeUplo
         ) : (
           <motion.div
             key="paste-tab"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
-            <div className="relative">
-              <textarea
-                value={pastedText}
-                onChange={handlePastedTextChange}
-                disabled={isLoading}
-                placeholder="Paste the full text of your resume here (experience, skills, projects, education)..."
-                rows={8}
-                className="w-full rounded-xl border border-[#2f293a] bg-[#120f17]/80 p-4 text-sm text-zinc-200 placeholder:text-[#554c5e] focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all font-mono leading-relaxed"
-              />
-              <div className="flex justify-end mt-1.5 text-xs text-[#b497cf]">
-                {pastedText.length} characters
-              </div>
-            </div>
+            <textarea
+              value={pastedText}
+              onChange={handlePastedTextChange}
+              disabled={isLoading}
+              placeholder="Paste your resume text here..."
+              rows={6}
+              className="w-full rounded-xl border border-[#2f293a] bg-[#120f17] p-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-[#a855f7] transition-all font-mono leading-relaxed"
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Error display */}
       {uploadError && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="mt-3 flex items-center gap-2 text-xs text-rose-300 bg-rose-950/40 border border-rose-800/40 p-2.5 rounded-lg"
-        >
-          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+        <div className="mt-3 flex items-center gap-2 text-xs text-rose-400 bg-rose-950/30 border border-rose-900/30 p-2 rounded-lg">
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
           <span>{uploadError}</span>
-        </motion.div>
+        </div>
       )}
     </div>
   );

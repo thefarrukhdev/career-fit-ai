@@ -1,6 +1,5 @@
 "use client";
 
-import { Briefcase, Sparkles, Building2, Star } from "lucide-react";
 import type { SampleJob } from "@/types/analysis";
 
 interface JobDescriptionInputProps {
@@ -13,8 +12,8 @@ interface JobDescriptionInputProps {
 export const SAMPLE_JOBS: SampleJob[] = [
   {
     id: "swara-dev",
-    title: "SWARA Software Developer",
-    company: "SWARA ($80k-$90k + 10% equity)",
+    title: "SWARA Developer",
+    company: "SWARA ($80k-$90k + 10%)",
     description: `Company: SWARA (San Francisco, CA - Hybrid/Remote)
 Role: Software Developer ($80k - $90k base + 10% equity)
 
@@ -37,8 +36,8 @@ Bonus Qualifications:
   },
   {
     id: "nextjs-fullstack",
-    title: "Next.js Full Stack Engineer",
-    company: "Vercel Ecosystem Partner",
+    title: "Full Stack Engineer",
+    company: "Next.js & Node",
     description: `Role: Full Stack Next.js Engineer (Remote)
 
 Responsibilities:
@@ -56,8 +55,8 @@ Requirements:
   },
   {
     id: "senior-frontend",
-    title: "Senior Frontend Architect",
-    company: "Fintech Platform",
+    title: "Frontend Architect",
+    company: "React & Systems",
     description: `Role: Senior Frontend Architect / Lead Engineer
 
 Key Expectations:
@@ -73,8 +72,8 @@ Qualifications:
   },
   {
     id: "ai-engineer",
-    title: "AI & LLM Systems Engineer",
-    company: "Applied AI Labs",
+    title: "AI Engineer",
+    company: "LLMs & Agents",
     description: `Role: AI & LLM Systems Engineer
 
 What You Will Do:
@@ -97,75 +96,44 @@ export function JobDescriptionInput({
   isLoading = false,
 }: JobDescriptionInputProps) {
   return (
-    <div className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 md:p-6 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all hover:border-[#a855f7]/40">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4 border-b border-[#2f293a] pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#a855f7]/15 text-[#c084fc] border border-[#a855f7]/30">
-            <Briefcase className="w-4 h-4" />
-          </div>
-          <div>
-            <h2 className="text-base font-bold text-white tracking-wide">Target Job Description</h2>
-            <p className="text-[11px] text-[#b497cf]">Extracted key requirements and qualifications</p>
-          </div>
-        </div>
-        <span className="text-xs text-[#b497cf] font-mono">
-          {value.length} / 5000 chars
+    <div className="w-full rounded-2xl border border-[#2f293a] bg-[#1b1722]/90 p-5 backdrop-blur-xl transition-all">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-white">Job Description</h2>
+        <span className="text-[11px] text-[#b497cf] font-mono">
+          {value.length} / 5000
         </span>
       </div>
 
-      {/* Textarea */}
-      <div className="relative mb-5">
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value.slice(0, 5000))}
-          disabled={isLoading}
-          rows={8}
-          placeholder="Paste the target job description here (responsibilities, technical requirements, qualifications, company info)..."
-          className="w-full rounded-xl border border-[#2f293a] bg-[#120f17]/80 p-4 text-sm text-zinc-200 placeholder:text-[#554c5e] focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all font-sans leading-relaxed"
-        />
-      </div>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value.slice(0, 5000))}
+        disabled={isLoading}
+        rows={6}
+        placeholder="Paste job description here..."
+        className="w-full rounded-xl border border-[#2f293a] bg-[#120f17] p-3 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-[#a855f7] transition-all font-sans leading-relaxed mb-3.5"
+      />
 
-      {/* Demo sample jobs selector */}
-      <div>
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-[#d8b4fe] mb-2.5">
-          <Sparkles className="w-3.5 h-3.5 text-[#a855f7]" />
-          <span>Quick Demo: Load verified benchmark job descriptions:</span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-          {SAMPLE_JOBS.map((job) => {
-            const isSwara = job.id === "swara-dev";
-            return (
-              <button
-                key={job.id}
-                type="button"
-                onClick={() => onSampleJobSelect(job.description)}
-                disabled={isLoading}
-                className={`flex flex-col items-start p-3 rounded-xl border text-left transition-all group ${
-                  isSwara
-                    ? "border-[#a855f7]/60 bg-[#a855f7]/10 hover:border-[#a855f7] hover:bg-[#a855f7]/20 shadow-[0_0_20px_rgba(168,85,247,0.15)]"
-                    : "border-[#2f293a] bg-[#120f17]/60 hover:border-[#a855f7]/40 hover:bg-[#120f17]"
-                }`}
-              >
-                <div className="flex items-center justify-between w-full mb-1">
-                  <span className={`text-xs font-bold truncate ${isSwara ? "text-[#e2c9ff]" : "text-zinc-200 group-hover:text-white"}`}>
-                    {job.title}
-                  </span>
-                  {isSwara && (
-                    <span className="flex items-center gap-1 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-[#a855f7]/30 text-[#e2c9ff] border border-[#a855f7]/50">
-                      <Star className="w-2.5 h-2.5 fill-current" /> TARGET
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-[#b497cf] truncate w-full">
-                  <Building2 className="w-3 h-3 shrink-0 text-[#a855f7]" />
-                  <span className="truncate">{job.company}</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+      {/* Sample jobs */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-[11px] text-[#b497cf]">Samples:</span>
+        {SAMPLE_JOBS.map((job) => {
+          const isSwara = job.id === "swara-dev";
+          return (
+            <button
+              key={job.id}
+              type="button"
+              onClick={() => onSampleJobSelect(job.description)}
+              disabled={isLoading}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
+                isSwara
+                  ? "bg-[#a855f7]/15 border-[#a855f7]/40 text-[#d8b4fe] hover:bg-[#a855f7]/25"
+                  : "bg-[#120f17] border-[#2f293a] text-zinc-300 hover:text-white hover:border-[#a855f7]/30"
+              }`}
+            >
+              {job.title}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
