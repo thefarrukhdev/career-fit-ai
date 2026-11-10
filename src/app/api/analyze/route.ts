@@ -3,6 +3,8 @@ import { analyzeWithGemini } from "@/lib/gemini";
 import { mockAnalyze } from "@/lib/mock-analyzer";
 import { parsePDF } from "@/lib/pdf-parser";
 
+export const maxDuration = 30; // Max allowed execution time for Vercel Serverless
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const formData = await request.formData();
@@ -46,13 +48,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Try Gemini first, fall back to mock
+    // Try Gemini first with a 7-second timeout, fall back to mock
     let result;
     try {
-      result = await analyzeWithGemini(resumeText, jobDescription);
+      const geminiTimeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Gemini API call timed out after 7s")), 7000)
+      );
+      result = await Promise.race([
+        analyzeWithGemini(resumeText, jobDescription),
+        geminiTimeout,
+      ]);
     } catch (geminiError) {
       console.warn(
-        "Gemini API failed, falling back to mock analyzer:",
+        "Gemini API unavailable or timed out, falling back to mock analyzer:",
         geminiError instanceof Error ? geminiError.message : "Unknown error"
       );
       result = await mockAnalyze(resumeText, jobDescription);
