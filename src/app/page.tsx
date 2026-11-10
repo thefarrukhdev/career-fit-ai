@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { ResumeUploader } from "@/components/ResumeUploader";
 import { JobDescriptionInput } from "@/components/JobDescriptionInput";
 import { AnalysisResults } from "@/components/AnalysisResults";
+import { GridBackground } from "@/components/reactbits/GridBackground";
 import type { AnalysisResult, AnalysisStatus } from "@/types/analysis";
 import { Zap, AlertCircle, Loader2, Code2, ArrowUpRight } from "lucide-react";
 
@@ -96,9 +97,9 @@ export default function Home() {
   const isBusy = status === "parsing" || status === "analyzing";
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col justify-between selection:bg-emerald-500/20 selection:text-white">
-      {/* Top ambient spotlight effect */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-emerald-500/5 via-cyan-500/5 to-transparent pointer-events-none blur-3xl" />
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col justify-between selection:bg-emerald-500/20 selection:text-white relative">
+      {/* React Bits Ambient Background */}
+      <GridBackground />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-10 w-full relative z-10 flex-1">
         {/* Header Section */}
@@ -131,35 +132,59 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {/* Run Analysis CTA */}
+          {/* Run Analysis CTA with React Bits Shimmer & Glowing Aura Button */}
           <div className="flex flex-col items-center pt-2">
-            <motion.button
-              type="button"
-              onClick={handleAnalyze}
-              disabled={isBusy}
-              whileHover={{ scale: isBusy ? 1 : 1.01 }}
-              whileTap={{ scale: isBusy ? 1 : 0.98 }}
-              className={`w-full sm:w-auto min-w-[280px] px-8 py-4 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2.5 shadow-xl transition-all ${
-                isBusy
-                  ? "bg-zinc-800 text-zinc-400 border border-zinc-700 cursor-not-allowed"
-                  : "bg-emerald-500 hover:bg-emerald-400 text-zinc-950 border border-emerald-400/40 shadow-emerald-500/20 hover:shadow-emerald-500/30 cursor-pointer"
-              }`}
-            >
-              {isBusy ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin text-emerald-400" />
-                  <span>
-                    {status === "parsing" ? "Extracting Document Content..." : "Analyzing with Gemini ATS Engine..."}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <Zap className="w-5 h-5 fill-current" />
-                  <span>Run Deep ATS Match Analysis</span>
-                </>
+            <div className="relative group">
+              {/* Outer pulsing ambient neon aura */}
+              {!isBusy && (
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-60 blur-lg group-hover:opacity-90 group-hover:blur-xl transition duration-500 group-hover:duration-200 animate-pulse pointer-events-none" />
               )}
-            </motion.button>
-            <p className="text-[11px] text-zinc-500 mt-2.5 text-center">
+
+              <motion.button
+                type="button"
+                onClick={handleAnalyze}
+                disabled={isBusy}
+                whileHover={{ scale: isBusy ? 1 : 1.02 }}
+                whileTap={{ scale: isBusy ? 1 : 0.98 }}
+                className={`relative overflow-hidden w-full sm:w-auto min-w-[320px] px-8 py-4 rounded-2xl font-bold text-sm tracking-wide flex items-center justify-center gap-2.5 shadow-2xl transition-all duration-300 ${
+                  isBusy
+                    ? "bg-zinc-800 text-zinc-400 border border-zinc-700 cursor-not-allowed"
+                    : "bg-emerald-500 hover:bg-emerald-400 text-zinc-950 border border-emerald-300/60 shadow-[0_0_30px_rgba(16,185,129,0.35)] hover:shadow-[0_0_50px_rgba(16,185,129,0.6)] cursor-pointer"
+                }`}
+              >
+                {/* Shimmer sweep effect */}
+                {!isBusy && (
+                  <motion.div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -inset-y-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/45 to-transparent"
+                    animate={{
+                      x: ["-150%", "250%"],
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 2.4,
+                      ease: "easeInOut",
+                      repeatDelay: 0.8,
+                    }}
+                  />
+                )}
+
+                {isBusy ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin text-emerald-400" />
+                    <span className="relative z-10 font-bold">
+                      {status === "parsing" ? "Extracting Document Content..." : "Analyzing with Gemini ATS Engine..."}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-5 h-5 fill-current relative z-10" />
+                    <span className="relative z-10 font-extrabold tracking-wide">Run Deep ATS Match Analysis</span>
+                  </>
+                )}
+              </motion.button>
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-3 text-center">
               Deterministic schema-evaluated scoring • Secure client-to-server memory processing
             </p>
           </div>
